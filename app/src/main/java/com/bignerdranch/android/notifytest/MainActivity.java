@@ -24,19 +24,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mItems = new ArrayList<>(Arrays.asList("1111111", "BBBBBB", "CCCCCC", "DDDDDDD", "EEEEEEE", "FFFFFFFF"));
+        mItems = new ArrayList<>(Arrays.asList("1111111", "BBBBBB", "CCCCCC", "DDDDDDD", "EEEEEEE"));
         mTextAdapter = new TextAdapter(this, mItems, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mItems.add(1, "222222");
-                mItems.add(2, "333333");
-                mTextAdapter.notifyItemRangeInserted(1, 2);
-                mItems.remove(3);
-                mItems.remove(3);
-                mItems.remove(3);
-                mItems.remove(3);
-                mItems.remove(3);
-                mTextAdapter.notifyItemRangeRemoved(3, 5);
+                if (mItems.size() > 2) {
+                    mItems.add(1, "222222");
+                    mTextAdapter.notifyItemInserted(1);
+                    mItems.subList(2, 6).clear();
+                    mTextAdapter.notifyItemRangeRemoved(2, 4);
+                } else {
+                    mItems.remove(1);
+                    mItems.addAll(Arrays.asList("BBBBBB", "CCCCCC", "DDDDDDD", "EEEEEEE"));
+                    mTextAdapter.notifyDataSetChanged();
+                }
             }
         });
         recyclerView.setAdapter(mTextAdapter);
