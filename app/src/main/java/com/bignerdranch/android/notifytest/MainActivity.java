@@ -1,6 +1,7 @@
 package com.bignerdranch.android.notifytest;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,18 +25,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mItems = new ArrayList<>(Arrays.asList("1111111", "BBBBBB", "CCCCCC", "DDDDDDD", "EEEEEEE"));
+        mItems = new ArrayList<>(Arrays.asList("#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF"));
         mTextAdapter = new TextAdapter(this, mItems, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mItems.size() > 2) {
-                    mItems.add(1, "222222");
+                    mItems.add(1, "#FF00FF");
                     mTextAdapter.notifyItemInserted(1);
                     mItems.subList(2, 6).clear();
                     mTextAdapter.notifyItemRangeRemoved(2, 4);
                 } else {
                     mItems.remove(1);
-                    mItems.addAll(Arrays.asList("BBBBBB", "CCCCCC", "DDDDDDD", "EEEEEEE"));
+                    mItems.addAll(Arrays.asList("#00FF00", "#0000FF", "#FFFF00", "#00FFFF"));
                     mTextAdapter.notifyDataSetChanged();
                 }
             }
@@ -82,10 +83,12 @@ public class MainActivity extends AppCompatActivity {
             public TextViewHolder(View itemView) {
                 super(itemView);
                 mTextView = (TextView) itemView;
+
             }
 
             public void bindText(String text) {
                 mTextView.setText(text);
+                mTextView.setBackgroundColor(Color.parseColor(text));
             }
         }
     }
